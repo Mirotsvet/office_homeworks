@@ -11,7 +11,7 @@ interface IAdditionalService {
     isIncluded: boolean
 }
 
-let AdditionalServices: IAdditionalService[] = [
+let additionalServicesInfo: IAdditionalService[] = [
     {
         serviceName: 'Service name 1',
         isIncluded: true
@@ -22,7 +22,7 @@ let AdditionalServices: IAdditionalService[] = [
     }
 ];
 
-let testParam: IAdditionalService;
+let serviceInfo: IAdditionalService;
 
 interface IHotelAllInfo {
     hotelInfo: IHotelInfo;
@@ -32,7 +32,7 @@ interface IHotelAllInfo {
 }
 
 
-@setAdditionalService(AdditionalServices, 5)
+@setAdditionalService(additionalServicesInfo, 5)
 @setRoomParam(17)
 @changeGuestsAmount
 class hotel implements IHotelAllInfo {
@@ -42,7 +42,7 @@ class hotel implements IHotelAllInfo {
     };
     roomNumber: RoomNumber = 15;
     guestAmount: GuestAmount = 1;
-    additionalService: IAdditionalService[] = AdditionalServices;
+    additionalService: IAdditionalService[] = additionalServicesInfo;
 
     getAllAboutHotel() {
         return {
@@ -69,32 +69,23 @@ function setRoomParam(roomNumber: number) {
     };
 }
 
-function setAdditionalService(AdditionalServices: IAdditionalService[], amount: number) {
+function setAdditionalService(additionalServicesInfo: IAdditionalService[], amount: number) {
     return <T extends { new(...args: any[]): {} }>(constructor: T) => {
         if (amount > 3) {
             return class extends constructor {
-                testParam: IAdditionalService = {
-                    serviceName: amount > 3 ? 'Service name 3' : 'Service name 4',
+                serviceInfo: IAdditionalService = {
+                    serviceName: 'Service name 3',
                     isIncluded: true
                 };
-                additionalService: IAdditionalService[] = AdditionalServices.push(testParam)
+                additionalService = [...additionalServicesInfo, this.serviceInfo]
             }
         } else {
             return class extends constructor {
-                additionalService: IAdditionalService[] = [
-                    {
-                        serviceName: 'Service name 1',
-                        isIncluded: true
-                    },
-                    {
-                        serviceName: 'Service name 2',
-                        isIncluded: false
-                    },
-                    {
-                        serviceName: 'Service name 4',
-                        isIncluded: true
-                    }
-                ]
+                serviceInfo: IAdditionalService = {
+                    serviceName: 'Service name 4',
+                    isIncluded: true
+                };
+                additionalService = [...additionalServicesInfo, this.serviceInfo]
             }
         } 
     };

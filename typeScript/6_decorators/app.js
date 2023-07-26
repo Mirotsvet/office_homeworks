@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-let AdditionalServices = [
+let additionalServicesInfo = [
     {
         serviceName: 'Service name 1',
         isIncluded: true
@@ -15,6 +15,7 @@ let AdditionalServices = [
         isIncluded: false
     }
 ];
+let serviceInfo;
 let hotel = class hotel {
     constructor() {
         this.hotelInfo = {
@@ -23,7 +24,7 @@ let hotel = class hotel {
         };
         this.roomNumber = 15;
         this.guestAmount = 1;
-        this.additionalService = AdditionalServices;
+        this.additionalService = additionalServicesInfo;
     }
     getAllAboutHotel() {
         return {
@@ -35,7 +36,7 @@ let hotel = class hotel {
     }
 };
 hotel = __decorate([
-    setAdditionalService(AdditionalServices, 5),
+    setAdditionalService(additionalServicesInfo, 5),
     setRoomParam(17),
     changeGuestsAmount
 ], hotel);
@@ -58,26 +59,17 @@ function setRoomParam(roomNumber) {
         };
     };
 }
-function setAdditionalService(services, amount) {
+function setAdditionalService(additionalServicesInfo, amount) {
     return (constructor) => {
         if (amount > 3) {
             return class extends constructor {
                 constructor() {
                     super(...arguments);
-                    this.additionalService = [
-                        {
-                            serviceName: 'Service name 1',
-                            isIncluded: true
-                        },
-                        {
-                            serviceName: 'Service name 2',
-                            isIncluded: false
-                        },
-                        {
-                            serviceName: 'Service name 3',
-                            isIncluded: true
-                        }
-                    ];
+                    this.serviceInfo = {
+                        serviceName: 'Service name 3',
+                        isIncluded: true
+                    };
+                    this.additionalService = [...additionalServicesInfo, this.serviceInfo];
                 }
             };
         }
@@ -85,20 +77,11 @@ function setAdditionalService(services, amount) {
             return class extends constructor {
                 constructor() {
                     super(...arguments);
-                    this.additionalService = [
-                        {
-                            serviceName: 'Service name 1',
-                            isIncluded: true
-                        },
-                        {
-                            serviceName: 'Service name 2',
-                            isIncluded: false
-                        },
-                        {
-                            serviceName: 'Service name 4',
-                            isIncluded: true
-                        }
-                    ];
+                    this.serviceInfo = {
+                        serviceName: 'Service name 4',
+                        isIncluded: true
+                    };
+                    this.additionalService = [...additionalServicesInfo, this.serviceInfo];
                 }
             };
         }
